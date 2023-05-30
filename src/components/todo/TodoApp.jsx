@@ -1,3 +1,5 @@
+import './TodoApp.css'
+
 export default function TotoApp() {
     return (
         <div className="TodoApp">
