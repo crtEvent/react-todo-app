@@ -13,9 +13,14 @@ export default function TotoApp() {
 function LoginComponent() {
 
     const [username, setUserName] = useState('admin')
+    const [password, setPassword] = useState('1234')
 
     function handleUserNameChange(event) {
         setUserName(event.target.value)
+    }
+
+    function handlePasswordChange(event) {
+        setPassword(event.target.value)
     }
 
     return (
@@ -27,7 +32,7 @@ function LoginComponent() {
                 </div>
                 <div>
                     <label>Password</label>
-                    <input type="text" password="password" />
+                    <input type="password" password="password" value={password} onChange={handlePasswordChange} />
                 </div>
                 <div>
                     <button type="button" name="login">Login</button>
