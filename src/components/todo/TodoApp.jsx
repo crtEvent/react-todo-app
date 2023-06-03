@@ -8,10 +8,12 @@ export default function TotoApp() {
             Todo Management Application
             <BrowserRouter>
                 <Routes>
-                    <Route path='/' element={<LoginComponent />}></Route>
-                    <Route path='/login' element={<LoginComponent />}></Route>
-                    <Route path='/welcome/:username' element={<WelcomeComponent />}></Route>
-                    <Route path='/*' element={<ErrorComponent />}></Route>
+                    <Route path='/' element={<LoginComponent />} />
+                    <Route path='/login' element={<LoginComponent />} />
+                    <Route path='/welcome/:username' element={<WelcomeComponent />} />
+                    <Route path='/todos' element={<ListTodosComponent />} />
+                    
+                    <Route path='/*' element={<ErrorComponent />} />
                 </Routes>
             </BrowserRouter>
         </div>
@@ -88,6 +90,43 @@ function ErrorComponent() {
             <h1>We are working really hard!</h1>
             <div>
                 Apologies for the 404. Reach out to our team at admin@email.cs
+            </div>
+        </div>
+    )
+}
+
+function ListTodosComponent() {
+
+    const todos = [
+                    {id: 1, description: 'Lean AWS'},
+                    {id: 2, description: 'Lean Java'},
+                    {id: 3, description: 'Lean C++'},
+                ]
+
+    return (
+        <div className='ListTodosComponent'>
+            <h1>Things you want to do!</h1>
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <td>id</td>
+                            <td>description</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            todos.map(
+                                todo => (
+                                    <tr key={todo.id}>
+                                        <td>{todo.id}</td>
+                                        <td>{todo.description}</td>
+                                    </tr>
+                                )
+                            )
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
     )
