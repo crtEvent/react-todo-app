@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { BrowserRouter, Route, Routes, useNavigate, useParams } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, useNavigate, useParams, Link } from 'react-router-dom'
 import './TodoApp.css'
 
 export default function TotoApp() {
@@ -79,7 +79,9 @@ function WelcomeComponent() {
     return (
         <div className='WelcomeComponent'>
             <h1>Welcome! { username }</h1>
-            TODO
+            <div>
+                Manage You todos. - <Link to="/todos">Go Here</Link>
+            </div>
         </div>
     )
 }
@@ -97,10 +99,13 @@ function ErrorComponent() {
 
 function ListTodosComponent() {
 
+    const today = new Date();
+    const targetDate = new Date(today.getFullYear() + 12, today.getMonth(), today.getDay())
+
     const todos = [
-                    {id: 1, description: 'Lean AWS'},
-                    {id: 2, description: 'Lean Java'},
-                    {id: 3, description: 'Lean C++'},
+                    {id: 1, description: 'Lean AWS', done: false, targetDate: targetDate},
+                    {id: 2, description: 'Lean Java', done: false, targetDate: targetDate},
+                    {id: 3, description: 'Lean C++', done: false, targetDate: targetDate},
                 ]
 
     return (
@@ -112,6 +117,8 @@ function ListTodosComponent() {
                         <tr>
                             <td>id</td>
                             <td>description</td>
+                            <td>is Done?</td>
+                            <td>Target Date</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -121,6 +128,8 @@ function ListTodosComponent() {
                                     <tr key={todo.id}>
                                         <td>{todo.id}</td>
                                         <td>{todo.description}</td>
+                                        <td>{todo.done.toString()}</td>
+                                        <td>{todo.targetDate.toDateString()}</td>
                                     </tr>
                                 )
                             )
