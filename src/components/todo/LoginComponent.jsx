@@ -7,7 +7,6 @@ function LoginComponent() {
     const [username, setUserName] = useState('admin')
     const [password, setPassword] = useState('1234')
 
-    const [showSuccessMessage, setShowSuccessMessage] = useState(false)
     const [showErrorMessage, setShowErrorMessage] = useState(false)
 
     const navigate = useNavigate();
@@ -23,14 +22,9 @@ function LoginComponent() {
     }
 
     function handleSubmit() {
-        if(username === 'admin' && password === '1234') {
-            authContenxt.setAuthenticated(true)
-            setShowSuccessMessage(true)
-            setShowErrorMessage(false)
+        if(authContenxt.login(username, password)) {
             navigate(`/welcome/${username}`)
         } else {
-            authContenxt.setAuthenticated(false)
-            setShowSuccessMessage(false)
             setShowErrorMessage(true)
         }
     }
@@ -38,7 +32,6 @@ function LoginComponent() {
     return (
         <div className="Login">
             <h1>Time to login!!</h1>
-            {showSuccessMessage && <div className="successMessage">Authenticated Successfully</div>}
             {showErrorMessage && <div className="errorMessage">Authenticated Failed. Please check your credentials</div>}
             <div className="LoginForm">
                 <div>
