@@ -1,9 +1,10 @@
 import { useNavigate, useParams } from "react-router-dom"
-import { retrieveTodoApi, updateTodoApi } from "./api/TodoApiService"
+import { createTodoApi, retrieveTodoApi, updateTodoApi } from "./api/TodoApiService"
 import { useAuth } from "./security/AuthContext"
 import { useEffect } from "react"
 import { useState } from "react"
 import { Field, Formik, Form, ErrorMessage  } from "formik"
+import moment from "moment/moment"
 
 function TodoComponent() {
 
@@ -21,14 +22,16 @@ function TodoComponent() {
     )
 
     function retrieveTodo() {
-        retrieveTodoApi(username, id)
-            .then(
-                response => {
-                    setDescription(response.data.description)
-                    setTargetDate(response.data.targetDate)
-                }
-            )
-            .catch(error => console.log(error))
+        if(id != -1) {
+            retrieveTodoApi(username, id)
+                .then(
+                    response => {
+                        setDescription(response.data.description)
+                        setTargetDate(response.data.targetDate)
+                    }
+                )
+                .catch(error => console.log(error))
+        }
     }
 
     function onSubmit(values) {
@@ -40,11 +43,19 @@ function TodoComponent() {
             done: false
         }
 
-        updateTodoApi(username, id, todo)
+        if(id == -1) {
+            createTodoApi(username, todo)
             .then(response => {
                 navigate('/todos')
             })
             .catch(error => console.log(error))
+        } else {
+            updateTodoApi(username, id, todo)
+                .then(response => {
+                    navigate('/todos')
+                })
+                .catch(error => console.log(error))
+        }
     }
 
     function validate(values) {
@@ -54,8 +65,8 @@ function TodoComponent() {
             errors.description = 'Enter atleast 5 characters'
         }
 
-        if(values.targetDate == null) {
-            errors.description = 'Enter a target date'
+        if(values.targetDate == null || values.targetDate == '' || !moment(values.targetDate).isValid()) {
+            errors.targetDate = 'Enter a target date'
         }
 
         return errors
