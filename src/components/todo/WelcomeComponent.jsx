@@ -1,8 +1,11 @@
 import { useParams, Link } from 'react-router-dom'
+//import { useAuth } from './security/AuthContext';
 
 function WelcomeComponent() {
 
     const { username } = useParams()
+    //const authContext = useAuth()
+    //const [message, setMessage] = useState(null)
 
     return (
         <div className='WelcomeComponent'>
